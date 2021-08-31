@@ -13,7 +13,9 @@ func main() {
 
 	// run the server on the port 3000
 	port := os.Getenv("PORT")
-	if port == "" {port = "3000"}
+	if port == "" {
+		port = "3000"
+	}
 	_ = router.Run(":" + port)
 }
 
