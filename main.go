@@ -1,4 +1,4 @@
-package API_1_0_goland_
+package main
 import (
 	"github.com/gin-gonic/gin"
 	"os"
