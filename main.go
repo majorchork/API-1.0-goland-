@@ -22,12 +22,12 @@ func main() {
 		//create
 	_ = router.POST("/createUser", createUserhandler)
 		//retrive
-	_ = router.GET("/createUser", getsinglehandler)
-	_ = router.GET("/createUser", getmultipleUserhandler)
+	_ = router.GET("/getUser", getsinglehandler)
+	_ = router.GET("/getUsers", getmultipleUserhandler)
 		//update
-	_ = router.PATCH("/createUser", updateUserhandler)
+	_ = router.PATCH("/updateUser", updateUserhandler)
 		//delete
-	_ = router.DELETE("/createUser", deleteuserUserhandler)
+	_ = router.DELETE("/deleteUser", deleteuserUserhandler)
 
 
 	// run the server on the port 3000
