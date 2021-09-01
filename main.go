@@ -1,15 +1,19 @@
 package main
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"os"
 )
 
 type User struct {
 	Name string `json:"name"`
-	Age float64 `json:"age"`
+	Age float32 `json:"age"`
 	Email string `json:"email"`
 	BloodType string `json:"blood_type"`
 }
+
+		//create an empty array of users
+		var Users []User
 
 func main() {
 	// create a new gin router
@@ -48,6 +52,8 @@ func createUserhandler(c *gin.Context) {
 		//create user
 		user := User{}
 
+			// gets the user data that was sent from the client
+			// fills up our empty user object with the sent data
 		err := c.ShouldBindJSON(&user)
 		if err != nil {
 			c.JSON(400, gin.H{
@@ -55,39 +61,59 @@ func createUserhandler(c *gin.Context) {
 			 })
 			return
 		}
+		// add single user to the list of users
 		// save user somewhere ...
+	Users = append(Users, user)
 
 	c.JSON(200, gin.H{
 		"message": "succesfully created user",
 		"data": user,
 	})
 }
+
 func getsinglehandler(c *gin.Context) {
-	user := User{
-		Name: "Sochuks",
-		Age: 04.20,
-		Email: "we@email.com",
+
+	name := c.Param("name")
+
+	fmt.Println("name", name)
+
+	var user User
+
+	for _, value := range Users {
+		// check the current iteration of users
+		// check if the name matches the client request
+		if value.Name == name {
+			//if it matches assigns the value to the empty user object we created
+			user = value
+		}
+	}
+	// if no match was found
+	//the empty use we created would still be empty
+	// check if user is empty, if so return a not found error
+
+	if &user == nil {
+		c.JSON(404, gin.H{
+			"error": "no user with name found:" + name,
+		})
+		return
 	}
 	c.JSON(200, gin.H{
-		"message": "succesfully created user",
-		"data": user,
+			"message" : "success",
+				 "data" : user,
 	})
+
 }
 
 func getmultipleUserhandler(c *gin.Context) {
-	user := User{
-		Name: "Sochuks",
-		Age: 04.20,
-		Email: "we@email.com",
-	}
+
 	c.JSON(200, gin.H{
-		"message": "succesfully created user",
-		"data": user,
+		"message": "successfully created user",
+		"data": Users,
 	})
 }
 func updateUserhandler(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"message": "code succesfully updated!",
+		"message": "code successfully updated!",
 	})
 }
 func deleteuserUserhandler(c *gin.Context) {
